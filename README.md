@@ -1,3 +1,7 @@
-# Fullstack Authentication Example with Next.js and NextAuth.js
+# Timestamp App for checking your current work time
 
-This is the starter project for the fullstack tutorial with Next.js and Prisma. You can find the final version of this project in the [`final`](https://github.com/prisma/blogr-nextjs-prisma/tree/final) branch of this repo.
+MVP product including
+- Easy Status Update
+- View old timestamps (30 days)
+- Authentication via Github
+- View sum of daily work time and sum of weekly work time
