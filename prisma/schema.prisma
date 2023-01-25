@@ -17,6 +17,30 @@ model Post {
   authorId  String?
 }
 
+model State{
+  id        String  @id @default(cuid())
+  name     String
+  timestamps Timestamp[]
+}
+
+model Workingstatus {
+  id        String  @id @default(cuid())
+  name     String
+  timestamps Timestamp[]
+}
+
+model Timestamp {
+  id  String @id @default(cuid())
+  start DateTime @default(now())
+  end DateTime
+  state State? @relation(fields: [stateId], references: [id])
+  stateId String?
+  workingstatus Workingstatus? @relation(fields: [workingstatusId], references: [id])
+  workingstatusId String?  
+  user User? @relation(fields: [userId], references: [id])
+  userId String?  
+}
+
 model Account {
   id                 String  @id @default(cuid())
   userId             String  @map("user_id")
@@ -55,6 +79,7 @@ model User {
   posts         Post[]
   accounts      Account[]
   sessions      Session[]
+  timestamps Timestamp[]
 }
 
 model VerificationToken {
