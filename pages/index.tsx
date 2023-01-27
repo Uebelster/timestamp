@@ -1,37 +1,43 @@
 import React from "react"
 import { GetStaticProps } from "next"
 import Layout from "../components/Layout"
-import Post, { PostProps } from "../components/Post"
+import Timestamp, { TimestampProps } from "../components/Timestamp"
 import prisma from '../lib/prisma';
 
 export const getStaticProps: GetStaticProps = async () => {
-  const feed = await prisma.post.findMany({
-    where: { published: true },
+  const feed = await prisma.timestamp.findMany({
     include: {
-      author: {
+      state: {
         select: { name: true },
       },
+      workingstatus: {
+        select: { name: true },
+      },
+      user: {
+        select: { name: true },
+      }
     },
   });
+  const feedJSON = JSON.stringify(feed)
   return {
-    props: { feed },
+    props: { feedJSON },
     revalidate: 10,
   };
 };
 
 type Props = {
-  feed: PostProps[]
+  feed: TimestampProps[]
 }
 
-const Blog: React.FC<Props> = (props) => {
+const Time: React.FC<Props> = (props) => {
   return (
     <Layout>
       <div className="page">
-        <h1>Public Feed</h1>
+        <h1>Timestamping</h1>
         <main>
-          {props.feed.map((post) => (
-            <div key={post.id} className="post">
-              <Post post={post} />
+          {props.feed.map((timestamp) => (
+            <div key={timestamp.id} className="post">
+              <Timestamp timestamp={timestamp} />
             </div>
           ))}
         </main>
@@ -54,4 +60,4 @@ const Blog: React.FC<Props> = (props) => {
   )
 }
 
-export default Blog
+export default Time
